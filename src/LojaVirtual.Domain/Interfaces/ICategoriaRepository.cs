@@ -5,6 +5,6 @@ namespace LojaVirtual.Business.Interfaces
 {
     public interface ICategoriaRepository : IRepository<Categoria>
     {
-        Task<Categoria> GetWithProduto(Guid id);
+        public Task<Categoria> GetWithProduto(Guid id, CancellationToken cancellationToken);
     }
 }

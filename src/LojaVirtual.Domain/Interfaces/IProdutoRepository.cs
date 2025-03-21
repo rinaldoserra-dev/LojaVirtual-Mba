@@ -5,8 +5,8 @@ namespace LojaVirtual.Business.Interfaces
 {
     public interface IProdutoRepository : IRepository<Produto>
     {
-        Task<IEnumerable<Produto>> GetByFornecedor(Guid fornecedorId);
-        Task<IEnumerable<Produto>> GetAllWithFornecedor();
-        Task<Produto> GetWithFornecedorById(Guid id);
+        Task<IEnumerable<Produto>> GetByCategoria(Guid categoriaId, CancellationToken cancellationToken);
+        Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken);
+        Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken);
     }
 }
