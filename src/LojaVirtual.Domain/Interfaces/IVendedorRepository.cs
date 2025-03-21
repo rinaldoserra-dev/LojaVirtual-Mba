@@ -3,8 +3,7 @@ using LojaVirtual.Business.Entities;
 
 namespace LojaVirtual.Business.Interfaces
 {
-    public interface ICategoriaRepository : IRepository<Categoria>
+    interface IVendedorRepository : IRepository<Vendedor>
     {
-        Task<Categoria> GetWithProduto(Guid id);
     }
 }
