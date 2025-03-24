@@ -1,0 +1,26 @@
+﻿@model IEnumerable<CategoriaResponse>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-end mb-3">
+        <a class="btn btn-success">NOVA CATEGORIA</a>
+    </div>
+
+    <div class="row">
+        @foreach (var categoria in Model)
+        {
+            <div class="col-12 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header text-center bg-gradient">
+                        <h5 class="card-title">@categoria.Nome</h5>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            @(categoria.Descricao is { Length: > 99 } ? categoria.Descricao[..99] + "..." : categoria.Descricao)
+                        </p>                        
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
