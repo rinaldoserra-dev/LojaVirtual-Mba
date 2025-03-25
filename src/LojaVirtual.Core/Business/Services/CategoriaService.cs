@@ -1,6 +1,6 @@
 ﻿using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
-using LojaVirtual.Core.Business.Models.Categoria;
+using LojaVirtual.Core.Business.Notifications;
 
 namespace LojaVirtual.Core.Business.Services
 {
@@ -16,37 +16,43 @@ namespace LojaVirtual.Core.Business.Services
             _notifiable = notifiable;
         }
 
-        public async Task Insert(CategoriaRequest request, CancellationToken cancellationToken)
+        public async Task Insert(Categoria categoria, CancellationToken cancellationToken)
         {
-            var categoria = new Categoria(request.Nome, request.Descricao);
+            //verifica se o id da cateegoria já existe
+            if (await _categoriaRepository.GetById(categoria.Id, cancellationToken) is not null)
+            {
+                _notifiable.AddNotification(new Notification("Id da categoria já existente"));
+                return;
+            }
+
             //verifica se o nome da categoria já existe
             if (await _categoriaRepository.Exists(categoria.Nome, cancellationToken))
             {
-                _notifiable.AddNotification(new Notifications.Notification("Nome da categoria já existente"));
+                _notifiable.AddNotification(new Notification("Nome da categoria já existente"));
                 return;
             }
             await _categoriaRepository.Insert(categoria, cancellationToken);
             await _categoriaRepository.SaveChanges(cancellationToken);
         }
 
-        public async Task Edit(CategoriaRequest request, CancellationToken cancellationToken)
+        public async Task Edit(Categoria categoria, CancellationToken cancellationToken)
         {
-            var categoria = await _categoriaRepository.GetById(request.Id, cancellationToken);
-            if(categoria is null)
+            var categoriaOrigem = await _categoriaRepository.GetById(categoria.Id, cancellationToken);
+            if(categoriaOrigem is null)
             {
-                _notifiable.AddNotification(new Notifications.Notification("Categoria não encontrada."));
+                _notifiable.AddNotification(new Notification("Categoria não encontrada."));
                 return;
             }
-            if (categoria.Nome != request.Nome &&
-                await _categoriaRepository.Exists(request.Nome, cancellationToken))
+            if (categoriaOrigem.Nome != categoria.Nome &&
+                await _categoriaRepository.Exists(categoria.Nome, cancellationToken))
             {
-                _notifiable.AddNotification(new Notifications.Notification("Nome da categoria já existente."));
+                _notifiable.AddNotification(new Notification("Nome da categoria já existente."));
                 return;
             }
 
-            categoria.Edit(request.Nome, request.Descricao);
+            categoriaOrigem.Edit(categoria.Nome, categoria.Descricao);
 
-            await _categoriaRepository.Edit(categoria, cancellationToken);
+            await _categoriaRepository.Edit(categoriaOrigem, cancellationToken);
             await _categoriaRepository.SaveChanges(cancellationToken);
         }
 
@@ -55,33 +61,32 @@ namespace LojaVirtual.Core.Business.Services
             var categoria = await _categoriaRepository.GetWithProduto(id, cancellationToken);
             if (categoria is null)
             {
-                _notifiable.AddNotification(new Notifications.Notification("Categoria não encontrada."));
+                _notifiable.AddNotification(new Notification("Categoria não encontrada."));
                 return;
             }
             if (categoria.Produtos.Any())
             {
-                _notifiable.AddNotification(new Notifications.Notification("Categoria possui produtos associados."));
+                _notifiable.AddNotification(new Notification("Categoria possui produtos associados."));
                 return;
             }
 
             await _categoriaRepository.Remove(categoria, cancellationToken);
             await _categoriaRepository.SaveChanges(cancellationToken);
-        }
+        }        
 
-        public async Task<IEnumerable<CategoriaResponse>> List(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Categoria>> List(CancellationToken cancellationToken)
         {
-            var categorias = await _categoriaRepository.List(cancellationToken);
-            return categorias.Select(CategoriaResponse.FromCategoria);
+            return await _categoriaRepository.List(cancellationToken);
         }
 
-        public async Task<CategoriaResponse> GetById(Guid id, CancellationToken cancellationToken)
+        public async Task<Categoria> GetById(Guid id, CancellationToken cancellationToken)
         {
             var categoria = await _categoriaRepository.GetById(id, cancellationToken);
             if (categoria is null)
             {
-                _notifiable.AddNotification(new Notifications.Notification("Categoria não encontrada."));
+                _notifiable.AddNotification(new Notification("Categoria não encontrada."));
             }
-            return CategoriaResponse.FromCategoria(categoria!);
+            return categoria!;
         }
     }
 }

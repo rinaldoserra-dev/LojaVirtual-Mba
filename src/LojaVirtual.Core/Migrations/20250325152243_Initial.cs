@@ -68,7 +68,7 @@ namespace LojaVirtual.Core.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Nome = table.Column<string>(type: "varchar(255)", nullable: false)
+                    Email = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {

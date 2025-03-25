@@ -1,4 +1,7 @@
-﻿using LojaVirtual.Core.Business.Interfaces;
+﻿using AutoMapper;
+using LojaVirtual.Api.Models;
+using LojaVirtual.Core.Business.Entities;
+using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Core.Business.Models.Categoria;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -8,64 +11,58 @@ namespace LojaVirtual.Api.Controllers
     [Route("api/categorias")]
     public class CategoriasController : MainController
     {
-        private readonly ICategoriaService _categoriaService;
-        private readonly INotifiable _notifiable;
+        private readonly ICategoriaService _categoriaService;        
+        private readonly IMapper _mapper;
         public CategoriasController(ICategoriaService categoriaService,
-                                    INotifiable notifiable)
+                                    INotifiable notifiable,
+                                    IMapper mapper): base(notifiable)
         {
             _categoriaService = categoriaService;
-            _notifiable = notifiable;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Insert([FromBody] CategoriaRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult> Insert([FromBody] CategoriaModel request, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return CustomResponse(ModelState);
             }
             
-            await _categoriaService.Insert(request, cancellationToken);
+            await _categoriaService.Insert(_mapper.Map<Categoria>(request), cancellationToken);                        
             
-            if (_notifiable.Valid())
-            {
-                return CustomResponse(HttpStatusCode.Created);
-            }
-            return CustomResponse(_notifiable.GetNotifications());
+            return CustomResponse(HttpStatusCode.Created);            
         }
 
         [HttpGet]
         public async Task<ActionResult> List(CancellationToken cancellationToken)
-        {
-            return CustomResponse(HttpStatusCode.OK, await _categoriaService.List(cancellationToken));
+        {            
+            return CustomResponse(HttpStatusCode.OK, _mapper.Map<IEnumerable<CategoriaModel>>(await _categoriaService.List(cancellationToken)));
         }
         
         [HttpPut("{id:Guid}")]
-        public async Task<IActionResult> Edit(Guid id, CategoriaRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(Guid id, [FromBody] CategoriaRequest request, CancellationToken cancellationToken)
         {
-            request.Id = id;
+            if (id != request.Id)
+            {
+                AdicionarErroProcessamento("O id informado não é o mesmo que foi passado no body");                
+                return CustomResponse();
+            }
             if (!ModelState.IsValid)
             {
                 return CustomResponse(ModelState);
             }
 
-            await _categoriaService.Edit(request, cancellationToken);
-
-            if (_notifiable.Valid())
-            {
-                return CustomResponse(HttpStatusCode.NoContent);
-            }
-            return CustomResponse(_notifiable.GetNotifications());
+            await _categoriaService.Edit(_mapper.Map<Categoria>(request), cancellationToken);
+            
+            return CustomResponse(HttpStatusCode.NoContent);            
         }
 
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            var categoria = await _categoriaService.GetById(id, cancellationToken);
-            if (_notifiable.Invalid())
-            {
-                return CustomResponse(_notifiable.GetNotifications());
-            }
+            var categoria = _mapper.Map<CategoriaModel>(await _categoriaService.GetById(id, cancellationToken));
+            
             return CustomResponse(HttpStatusCode.OK, categoria);
         }
         
@@ -73,10 +70,7 @@ namespace LojaVirtual.Api.Controllers
         public async Task<ActionResult> Remove(Guid id, CancellationToken cancellationToken)
         {
             await _categoriaService.Remove(id, cancellationToken);
-            if (_notifiable.Invalid())
-            {
-                return CustomResponse(_notifiable.GetNotifications());
-            }
+            
             return CustomResponse(HttpStatusCode.NoContent);
         }
     }

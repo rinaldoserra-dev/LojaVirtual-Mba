@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LojaVirtual.Core.Migrations
 {
     [DbContext(typeof(LojaVirtualContext))]
-    [Migration("20250324145517_Initial")]
+    [Migration("20250325152243_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -87,7 +87,7 @@ namespace LojaVirtual.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 

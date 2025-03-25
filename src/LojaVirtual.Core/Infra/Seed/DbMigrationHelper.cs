@@ -41,9 +41,11 @@ namespace LojaVirtual.Core.Infra.Seed
         {
             if (context.CategoriaSet.Any()) return;
 
+            var idUser = Guid.NewGuid();
+
             var usuario = new IdentityUser
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = idUser.ToString(),
                 Email = "vendedor@teste.com",
                 EmailConfirmed = true,
                 NormalizedEmail = "VENDEDOR@TESTE.COM",
@@ -52,12 +54,13 @@ namespace LojaVirtual.Core.Infra.Seed
                 PasswordHash = "AQAAAAIAAYagAAAAEF/nmfwFGPa8pnY9AvZL8HKI7r7l+aM4nryRB+Y3Ktgo6d5/0d25U2mhixnO4h/K5w==",
                 NormalizedUserName = "VENDEDOR@TESTE.COM"
             };
-
-            var vendedor = new Vendedor(new Guid(usuario.Id), usuario.UserName);
+            
+            var vendedor = new Vendedor(idUser, usuario.UserName);
             var categoria = new Categoria("Informática", "Descrição da categoria Informática");
 
             categoria.AddProduto(new Produto("Mouse", "Descrição do produto Mouse", "mouse.jpg", 100, 20, categoria.Id, vendedor.Id));
 
+            await context.Users.AddAsync(usuario);
             await context.VendedorSet.AddAsync(vendedor);
             await context.CategoriaSet.AddAsync(categoria);
 

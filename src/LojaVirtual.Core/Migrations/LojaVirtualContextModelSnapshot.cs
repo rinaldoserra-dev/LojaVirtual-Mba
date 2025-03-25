@@ -84,7 +84,7 @@ namespace LojaVirtual.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 

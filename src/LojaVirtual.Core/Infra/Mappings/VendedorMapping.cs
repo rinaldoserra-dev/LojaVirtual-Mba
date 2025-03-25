@@ -12,7 +12,7 @@ namespace LojaVirtual.Core.Infra.Mappings
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.Nome)
+            builder.Property(p => p.Email)
                .IsRequired();
 
         }

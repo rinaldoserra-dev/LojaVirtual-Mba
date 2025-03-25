@@ -11,7 +11,8 @@ builder.Services
     .AddDbContextConfig(builder.Configuration)
     .AddIdentityConfig()
     .RegisterServices()
-    .AddJwtConfig(builder.Configuration);
+    .AddJwtConfig(builder.Configuration)
+    .AddAutoMapper();
 
 var app = builder.Build();
 

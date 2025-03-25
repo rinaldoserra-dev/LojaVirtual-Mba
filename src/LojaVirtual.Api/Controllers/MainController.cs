@@ -1,4 +1,5 @@
-﻿using LojaVirtual.Core.Business.Notifications;
+﻿using LojaVirtual.Core.Business.Interfaces;
+using LojaVirtual.Core.Business.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net;
@@ -8,9 +9,12 @@ namespace LojaVirtual.Api.Controllers
     [ApiController]
     public class MainController : Controller
     {
-        protected MainController() { }
+        private readonly INotifiable _notifiable;
 
-        protected ICollection<string> Erros = new List<string>();
+        protected MainController(INotifiable notifiable)
+        {
+            _notifiable = notifiable;
+        }
         protected ActionResult CustomResponse(HttpStatusCode statusCode = HttpStatusCode.OK, object result = null)
         {
             if (OperacaoValida())
@@ -20,10 +24,10 @@ namespace LojaVirtual.Api.Controllers
                     StatusCode = (int)statusCode
                 };
             }
-
+            
             return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
-                { "Mensagens", Erros.ToArray() }
+                { "Mensagens", _notifiable.GetNotifications().Select(n => n.Message).ToArray() }
             }));
         }
         protected ActionResult CustomResponse(ModelStateDictionary modelState)
@@ -47,17 +51,12 @@ namespace LojaVirtual.Api.Controllers
 
         protected bool OperacaoValida()
         {
-            return !Erros.Any();
+            return _notifiable.Valid();
         }
 
         protected void AdicionarErroProcessamento(string erro)
         {
-            Erros.Add(erro);
-        }
-
-        protected void LimparErrosProcessamento()
-        {
-            Erros.Clear();
-        }
+            _notifiable.AddNotification(new Notification(erro));
+        }        
     }
 }
