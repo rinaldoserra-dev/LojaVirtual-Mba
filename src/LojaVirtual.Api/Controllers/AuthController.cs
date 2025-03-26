@@ -59,7 +59,7 @@ namespace LojaVirtual.Api.Controllers
             var result = await _userManager.CreateAsync(user, registerUser.Password);
             if (result.Succeeded)
             {
-                var vendedor = new Vendedor(idUser, registerUser.Email);
+                var vendedor = new Vendedor(idUser, registerUser.Nome, registerUser.Email);
                 
                 await _vendedorRepository.Insert(vendedor, cancellationToken);
                 await _signInManager.SignInAsync(user, false);

@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDbContextIdentityConfig(builder.Configuration)
     .RegisterServices()
+    .AddAutoMapper()
     .AddControllersWithViews();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -29,6 +30,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.UseDbMigrationHelper();
 

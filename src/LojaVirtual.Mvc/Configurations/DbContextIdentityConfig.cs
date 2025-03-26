@@ -14,7 +14,7 @@ namespace LojaVirtual.Mvc.Configurations
                 options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LojaVirtualContext>();
 

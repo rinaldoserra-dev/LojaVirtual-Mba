@@ -13,6 +13,7 @@ namespace LojaVirtual.Mvc.Configurations
             // Repositories
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IVendedorRepository, VendedorRepository>();
 
             //Notification
             services.AddScoped<INotifiable, Notifiable>();
