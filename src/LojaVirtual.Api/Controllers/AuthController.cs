@@ -36,7 +36,7 @@ namespace LojaVirtual.Api.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginUserViewModel loginUser)
         {
-            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
 
@@ -44,7 +44,7 @@ namespace LojaVirtual.Api.Controllers
             {
                 return CustomResponse(HttpStatusCode.OK, await GerarJwt(loginUser.Email));
             }
-            AdicionarErroProcessamento("E-mail já cadastrado.");
+            AdicionarErroProcessamento("E-mail ou senha inválidos.");
             return CustomResponse();
         }
 

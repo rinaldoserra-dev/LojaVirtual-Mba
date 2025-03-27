@@ -18,7 +18,7 @@ namespace LojaVirtual.Core.Business.Services
 
         public async Task Insert(Categoria categoria, CancellationToken cancellationToken)
         {
-            //verifica se o id da cateegoria já existe
+            //verifica se o id da categoria já existe
             if (await _categoriaRepository.GetById(categoria.Id, cancellationToken) is not null)
             {
                 _notifiable.AddNotification(new Notification("Id da categoria já existente"));

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LojaVirtual.Core.Infra.Repositories
 {
-    public class ProdutoRepository: IProdutoRepository
+    public class ProdutoRepository : IProdutoRepository
     {
         private readonly LojaVirtualContext _context;
 
@@ -53,10 +53,22 @@ namespace LojaVirtual.Core.Infra.Repositories
         {
             Task.FromResult(_context.ProdutoSet.Remove(produto));
         }
+        public async Task<bool> Exists(string nome, CancellationToken cancellationToken)
+        {
+            return await _context.ProdutoSet.AnyAsync(c => c.Nome == nome, cancellationToken);
+        }
+
+        public async Task<List<Produto>> List(Guid vendedorId, CancellationToken cancellationToken)
+        {
+            return await _context
+                .ProdutoSet
+                .Where(p => p.VendedorId == vendedorId)
+                .ToListAsync(cancellationToken);            
+        }
 
         public void Dispose()
         {
             _context.Dispose();
-        }
+        }        
     }
 }
