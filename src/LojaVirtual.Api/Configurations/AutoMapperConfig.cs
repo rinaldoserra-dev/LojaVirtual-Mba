@@ -8,7 +8,11 @@ namespace LojaVirtual.Api.Configurations
     {
         public AutoMapperConfig()
         {            
-            CreateMap<Categoria, CategoriaModel>().ReverseMap();            
+            CreateMap<Categoria, CategoriaModel>().ReverseMap();
+            CreateMap<Produto, ProdutoModel>().ForMember(dest => dest.NomeCategoria, opt => opt.MapFrom(src => src.Categoria.Nome));
+            CreateMap<ProdutoModel, Produto>();
+
+            //CreateMap<ProdutoImagemViewModel, Produto>().ReverseMap();
         }
     }
     public static class AutoMapperAdd

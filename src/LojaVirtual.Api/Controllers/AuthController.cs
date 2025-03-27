@@ -2,6 +2,7 @@
 using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Extensions.IdentityUser;
 using LojaVirtual.Core.Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,7 @@ using System.Text;
 
 namespace LojaVirtual.Api.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -30,7 +32,23 @@ namespace LojaVirtual.Api.Controllers
             _jwtSettings = jwtSettings.Value;
             _vendedorRepository = vendedorRepository;
         }
-        [HttpPost("registrar")]
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(LoginUserViewModel loginUser)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
+
+            if (result.Succeeded)
+            {
+                return CustomResponse(HttpStatusCode.OK, await GerarJwt(loginUser.Email));
+            }
+            AdicionarErroProcessamento("E-mail já cadastrado.");
+            return CustomResponse();
+        }
+
+        [HttpPost("register")]
         public async Task<ActionResult> Registrar(RegisterUserModel registerUser, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
@@ -65,7 +83,7 @@ namespace LojaVirtual.Api.Controllers
                 await _signInManager.SignInAsync(user, false);
                 return CustomResponse(HttpStatusCode.OK, await GerarJwt(user.Email));
             }
-            AdicionarErroProcessamento("Falha no registro do usuário");
+            AdicionarErroProcessamento("Falha no registro do usuário.");
             return CustomResponse();
         }
         private async Task<string> GerarJwt(string email)

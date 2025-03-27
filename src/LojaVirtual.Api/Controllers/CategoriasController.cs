@@ -3,11 +3,13 @@ using LojaVirtual.Api.Models;
 using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Core.Business.Models.Categoria;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace LojaVirtual.Api.Controllers
 {
+    [Authorize]
     [Route("api/categorias")]
     public class CategoriasController : MainController
     {
@@ -35,6 +37,7 @@ namespace LojaVirtual.Api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> List(CancellationToken cancellationToken)
         {            
             return CustomResponse(HttpStatusCode.OK, _mapper.Map<IEnumerable<CategoriaModel>>(await _categoriaService.List(cancellationToken)));
