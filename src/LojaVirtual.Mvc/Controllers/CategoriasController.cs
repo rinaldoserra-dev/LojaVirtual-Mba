@@ -24,5 +24,11 @@ namespace LojaVirtual.Mvc.Controllers
             
             return View(categorias);
         }
+
+        [Route("novo")]
+        public async Task<IActionResult> Create()
+        {            
+            return View();
+        }
     }
 }
