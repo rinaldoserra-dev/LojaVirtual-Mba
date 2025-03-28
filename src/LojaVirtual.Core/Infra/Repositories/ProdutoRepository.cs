@@ -43,6 +43,12 @@ namespace LojaVirtual.Core.Infra.Repositories
         {
             return await _context.ProdutoSet.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
+        public async Task<Produto> GetSelfProdutoById(Guid id, Guid vendedorId, CancellationToken cancellationToken)
+        {
+            return await _context
+                .ProdutoSet
+                .FirstOrDefaultAsync(c => c.Id == id && c.VendedorId == vendedorId, cancellationToken);
+        }
 
         public async Task<List<Produto>> List(CancellationToken cancellationToken)
         {
@@ -65,7 +71,10 @@ namespace LojaVirtual.Core.Infra.Repositories
                 .Where(p => p.VendedorId == vendedorId)
                 .ToListAsync(cancellationToken);            
         }
-
+        public async Task<int> SaveChanges(CancellationToken cancellationToken)
+        {
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
         public void Dispose()
         {
             _context.Dispose();

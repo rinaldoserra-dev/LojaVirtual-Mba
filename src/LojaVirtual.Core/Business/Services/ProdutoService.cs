@@ -34,15 +34,40 @@ namespace LojaVirtual.Core.Business.Services
                 _notifiable.AddNotification(new Notification("Nome do produto já existente."));                
             }
             await _produtoRepository.Insert(request, cancellationToken);
-            await _categoriaRepository.SaveChanges(cancellationToken);
+            await _produtoRepository.SaveChanges(cancellationToken);
         }
-        public Task Remove(Guid id, CancellationToken cancellationToken)
+        public async Task Remove(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var produto = await GetSelfProdutoById(id, cancellationToken);
+            if (produto is null)
+            {
+                _notifiable.AddNotification(new Notification("Produto não encontrado."));
+                return;
+            }
+
+            await _produtoRepository.Remove(produto, cancellationToken);
+            await _produtoRepository.SaveChanges(cancellationToken);
         }
-        public Task Edit(Produto request, CancellationToken cancellationToken)
+        public async Task Edit(Produto request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var categoria = await _categoriaRepository.GetById(request.CategoriaId, cancellationToken);
+            if (categoria is null)
+            {
+                _notifiable.AddNotification(new Notification("Categoria não encontrada."));
+                return;
+            }
+            var produtoOrigem = await _produtoRepository.GetById(request.Id, cancellationToken);
+            if (produtoOrigem.Nome != request.Nome &&
+                await _produtoRepository.Exists(request.Nome, cancellationToken))
+            {
+                _notifiable.AddNotification(new Notification("Nome do produto já existente."));
+                return;
+            }
+
+            produtoOrigem.Edit(request.Nome, request.Descricao, request.Imagem, request.Preco, request.Estoque, request.CategoriaId);
+
+            await _produtoRepository.Edit(produtoOrigem, cancellationToken);
+            await _produtoRepository.SaveChanges(cancellationToken);
         }
 
         public async Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken)
@@ -64,6 +89,10 @@ namespace LojaVirtual.Core.Business.Services
         {
             return await _produtoRepository.List(new Guid(_appIdentifyUser.GetUserId()), cancellationToken);
         }
+        public async Task<Produto> GetSelfProdutoById(Guid id, CancellationToken cancellationToken)
+        {
+            return await _produtoRepository.GetSelfProdutoById(id, new Guid(_appIdentifyUser.GetUserId()), cancellationToken);
+        }
 
         #region Vitrine
         public async Task<IEnumerable<Produto>> ListVitrine(CancellationToken cancellationToken)
@@ -75,6 +104,6 @@ namespace LojaVirtual.Core.Business.Services
             return await _produtoRepository.GetById(id, cancellationToken);
         }
         #endregion
-
+       
     }
 }

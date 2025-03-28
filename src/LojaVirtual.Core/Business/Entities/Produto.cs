@@ -29,5 +29,20 @@
         public Categoria Categoria { get; private set; }
         public Guid VendedorId { get; private set; }
         public Vendedor Vendedor { get; private set; }
+
+        public void Edit(string nome,
+            string descricao,
+            string imagem,
+            decimal preco,
+            int estoque,
+            Guid categoriaId)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Imagem = imagem;
+            Preco = preco;
+            Estoque = estoque;
+            CategoriaId = categoriaId;
+        }
     }
 }

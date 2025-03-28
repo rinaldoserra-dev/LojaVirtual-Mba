@@ -22,10 +22,12 @@ namespace LojaVirtual.Api.Models
         public string Imagem { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Range(0.01, 99999999, ErrorMessage = "O campo {0} tem que ser maior que {1}")]
         public decimal Preco { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public decimal Estoque { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "O campo {0} tem que ser maior que {1}")]
+        public int Estoque { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public Guid CategoriaId { get; set; }

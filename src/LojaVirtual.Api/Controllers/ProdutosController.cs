@@ -2,6 +2,7 @@
 using LojaVirtual.Api.Models;
 using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
+using LojaVirtual.Core.Business.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -56,7 +57,72 @@ namespace LojaVirtual.Api.Controllers
 
             }            
             return CustomResponse(HttpStatusCode.Created);
-        }        
+        }
+
+        [HttpPut("editar/{id:Guid}")]
+        public async Task<IActionResult> Edit(Guid id, [FromForm] ProdutoModel produtoModel, CancellationToken cancellationToken)
+        {
+            if (id != produtoModel.Id)
+            {
+                AdicionarErroProcessamento("O id informado não é o mesmo que foi passado no form");
+                return CustomResponse();
+            }
+
+            var produtoOrigem = await _produtoService.GetSelfProdutoById(id, cancellationToken);
+            
+            if (string.IsNullOrEmpty(produtoModel.Imagem))
+                produtoModel.Imagem = produtoOrigem.Imagem;
+
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            if (produtoModel.ImagemUpload != null)
+            {
+                var imagePrefix = Guid.NewGuid() + "_";
+                if (!await UploadFile(produtoModel.ImagemUpload, imagePrefix))
+                {
+                    return CustomResponse();
+                }
+
+                produtoModel.Imagem = imagePrefix + produtoModel.ImagemUpload.FileName;
+            }
+
+            try
+            {
+                await _produtoService.Edit(_mapper.Map<Produto>(produtoModel), cancellationToken);
+                if (!OperacaoValida() && produtoModel.ImagemUpload != null)
+                {
+                    DeleteFile(produtoModel.Imagem);
+                }
+            }
+            catch
+            {
+                if (produtoModel.ImagemUpload != null)
+                {
+                    DeleteFile(produtoModel.Imagem);
+                }
+
+            }
+            return CustomResponse(HttpStatusCode.NoContent);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        {
+            var produto = _mapper.Map<ProdutoModel>(await _produtoService.GetSelfProdutoById(id, cancellationToken));
+
+            return CustomResponse(HttpStatusCode.OK, produto);
+        }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<ActionResult> Remove(Guid id, CancellationToken cancellationToken)
+        {
+            await _produtoService.Remove(id, cancellationToken);
+
+            return CustomResponse(HttpStatusCode.NoContent);
+        }
 
         private void DeleteFile(string imageName)
         {
