@@ -28,7 +28,14 @@ namespace LojaVirtual.Core.Infra.Repositories
                 .Include(p => p.Categoria)
                 .ToListAsync(cancellationToken);
         }
-
+        public async Task<IEnumerable<Produto>> GetAllSelfProdutoWithCategoria(Guid vendedorId, CancellationToken cancellationToken)
+        {
+            return await _context.ProdutoSet
+                .Include(p => p.Categoria)
+                .Where(p => p.VendedorId == vendedorId)
+                .ToListAsync(cancellationToken);
+        }
+       
         public async Task<IEnumerable<Produto>> GetByCategoria(Guid categoriaId, CancellationToken cancellationToken)
         {
             return await _context.ProdutoSet.Where(p => p.CategoriaId == categoriaId).ToListAsync(cancellationToken);

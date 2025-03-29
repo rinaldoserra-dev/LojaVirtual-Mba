@@ -57,8 +57,9 @@ namespace LojaVirtual.Core.Infra.Seed
             
             var vendedor = new Vendedor(idUser, "Rinaldo Serra", usuario.Email);
             var categoria = new Categoria("Informática", "Descrição da categoria Informática");
-
-            categoria.AddProduto(new Produto("Mouse", "Descrição do produto Mouse", "mouse.jpg", 100, 20, categoria.Id, vendedor.Id));
+            var produto = new Produto("Mouse", "Descrição do produto Mouse", "mouse.jpg", 100, 20, categoria.Id);
+            produto.VinculaVendedor(vendedor.Id);
+            categoria.AddProduto(produto);
 
             await context.Users.AddAsync(usuario);
             await context.VendedorSet.AddAsync(vendedor);

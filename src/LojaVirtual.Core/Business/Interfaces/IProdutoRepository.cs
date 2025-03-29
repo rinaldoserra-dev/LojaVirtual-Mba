@@ -14,6 +14,7 @@ namespace LojaVirtual.Core.Business.Interfaces
         public Task<bool> Exists(string nome, CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetByCategoria(Guid categoriaId, CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken);
+        Task<IEnumerable<Produto>> GetAllSelfProdutoWithCategoria(Guid vendedorid, CancellationToken cancellationToken);
         Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken);
         public Task<int> SaveChanges(CancellationToken cancellationToken);
     }

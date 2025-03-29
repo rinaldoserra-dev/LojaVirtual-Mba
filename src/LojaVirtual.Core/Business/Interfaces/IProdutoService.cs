@@ -12,6 +12,7 @@ namespace LojaVirtual.Core.Business.Interfaces
         Task<Produto> GetById(Guid id, CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetByCategoria(Guid categoriaId, CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken);
+        Task<IEnumerable<Produto>> GetAllSelfProdutoWithCategoria(CancellationToken cancellationToken);
         Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken);
         Task<Produto> GetSelfProdutoById(Guid id, CancellationToken cancellationToken);
     }

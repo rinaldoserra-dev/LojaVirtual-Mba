@@ -8,8 +8,7 @@
             string imagem,
             decimal preco, 
             int estoque, 
-            Guid categoriaId, 
-            Guid vendedorId)
+            Guid categoriaId)
         {
             Nome = nome;
             Descricao = descricao;
@@ -17,7 +16,6 @@
             Preco = preco;
             Estoque = estoque;
             CategoriaId = categoriaId;
-            VendedorId = vendedorId;
         }
 
         public string Nome { get; private set; }
@@ -43,6 +41,10 @@
             Preco = preco;
             Estoque = estoque;
             CategoriaId = categoriaId;
+        }
+        public void VinculaVendedor(Guid vendedorId)
+        {
+            VendedorId = vendedorId;
         }
     }
 }

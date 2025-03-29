@@ -5,27 +5,27 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Criação de uma nova conta.</h2>
+            <h2>Crie uma nova conta.</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
+            <div class="form-group mb-3">
                 <label asp-for="Input.Nome">Nome</label>
                 <input asp-for="Input.Nome" class="form-control" autocomplete="username" aria-required="true" placeholder="nome" />
                 <span asp-validation-for="Input.Nome" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
+            <div class="form-group mb-3">
                 <label asp-for="Input.Email">Email</label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-group mb-3">
                 <label asp-for="Input.Password">Senha</label>
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="senha" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
+            <div class="form-group mb-3">
                 <label asp-for="Input.ConfirmPassword">Confirmação da Senha</label>
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="senha" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>

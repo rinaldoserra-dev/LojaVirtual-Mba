@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LojaVirtual.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Loja : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,6 +68,7 @@ namespace LojaVirtual.Core.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Nome = table.Column<string>(type: "varchar(255)", nullable: false),
                     Email = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
@@ -121,8 +122,8 @@ namespace LojaVirtual.Core.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "varchar(255)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "varchar(255)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "varchar(255)", nullable: true),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
@@ -166,8 +167,8 @@ namespace LojaVirtual.Core.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "varchar(255)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>

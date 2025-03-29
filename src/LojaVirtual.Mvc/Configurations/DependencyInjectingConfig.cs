@@ -20,7 +20,7 @@ namespace LojaVirtual.Mvc.Configurations
 
             //Services
             services.AddScoped<ICategoriaService, CategoriaService>();
-           
+            services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IAppIdentifyUser, AppIdentityUser>();
 
 

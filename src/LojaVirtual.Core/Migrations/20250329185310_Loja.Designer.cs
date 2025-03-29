@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LojaVirtual.Core.Migrations
 {
     [DbContext(typeof(LojaVirtualContext))]
-    [Migration("20250325152243_Initial")]
-    partial class Initial
+    [Migration("20250329185310_Loja")]
+    partial class Loja
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,6 +88,10 @@ namespace LojaVirtual.Core.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
@@ -235,9 +239,11 @@ namespace LojaVirtual.Core.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
@@ -275,9 +281,11 @@ namespace LojaVirtual.Core.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(128)
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")

@@ -33,6 +33,7 @@ namespace LojaVirtual.Core.Business.Services
             {
                 _notifiable.AddNotification(new Notification("Nome do produto já existente."));                
             }
+            request.VinculaVendedor(new Guid(_appIdentifyUser.GetUserId()));
             await _produtoRepository.Insert(request, cancellationToken);
             await _produtoRepository.SaveChanges(cancellationToken);
         }
@@ -73,6 +74,10 @@ namespace LojaVirtual.Core.Business.Services
         public async Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken)
         {
             return await _produtoRepository.GetAllWithCategoria(cancellationToken);
+        }
+        public async Task<IEnumerable<Produto>> GetAllSelfProdutoWithCategoria(CancellationToken cancellationToken)
+        {
+            return await _produtoRepository.GetAllSelfProdutoWithCategoria(new Guid(_appIdentifyUser.GetUserId()), cancellationToken);
         }
 
         public async Task<IEnumerable<Produto>> GetByCategoria(Guid categoriaId, CancellationToken cancellationToken)

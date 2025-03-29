@@ -1,16 +1,25 @@
+using AutoMapper;
+using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace LojaVirtual.Mvc.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : MainController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMapper _mapper;
+        private readonly IProdutoService _produtoService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+                              IMapper mapper, 
+                              INotifiable notifiable,
+                              IProdutoService produtoService) : base(notifiable)
         {
             _logger = logger;
+            _mapper = mapper;
+            _produtoService = produtoService;
         }
 
         public IActionResult Index()
@@ -18,9 +27,12 @@ namespace LojaVirtual.Mvc.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        [Route("")]
+        [Route("vitrine")]
+        public async Task<ActionResult> Index(CancellationToken cancellationToken)
         {
-            return View();
+            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoService.ListVitrine(cancellationToken)));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
