@@ -35,7 +35,8 @@ namespace LojaVirtual.Api.Controllers
             var erros = modelState.Values.SelectMany(e => e.Errors);
             foreach (var erro in erros)
             {
-                AdicionarErroProcessamento(erro.ErrorMessage);
+                var errorMsg = erro.Exception == null ? erro.ErrorMessage : erro.Exception.Message;
+                AdicionarErroProcessamento(errorMsg);
             }
             return CustomResponse();
         }

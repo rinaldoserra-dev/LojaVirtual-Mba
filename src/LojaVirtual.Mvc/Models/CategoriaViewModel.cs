@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace LojaVirtual.Mvc.Models
 {
@@ -13,6 +14,7 @@ namespace LojaVirtual.Mvc.Models
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(1000, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
+        [DisplayName("Descrição")]
         public string Descricao { get; set; }
     }
 }
