@@ -74,9 +74,9 @@ namespace LojaVirtual.Core.Business.Services
             await _categoriaRepository.SaveChanges(cancellationToken);
         }        
 
-        public async Task<IEnumerable<Categoria>> List(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Categoria>> ListAsNoTracking(CancellationToken cancellationToken)
         {
-            return await _categoriaRepository.List(cancellationToken);
+            return await _categoriaRepository.ListAsNoTracking(cancellationToken);
         }
 
         public async Task<Categoria> GetById(Guid id, CancellationToken cancellationToken)

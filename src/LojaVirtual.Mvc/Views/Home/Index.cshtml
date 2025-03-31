@@ -1,16 +1,7 @@
 ﻿@model IEnumerable<ProdutoViewModel>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Loja Virtual";
 }
-
-<div class="bg-dark py-5">
-    <div style="text-align: center;">
-        <h1 class="m-0 text-center text-white">Shop in style</h1>
-        <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
-        
-    </div>
-</div>
-
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -20,7 +11,7 @@
                     <div class="col mb-5">
                         <div href="#" class="card h-100">
                             <!-- Product image-->
-                            <a asp-controller="Home" asp-action="Detalhe" asp-route-id="@produto.Id" class="img-wrap">
+                            <a asp-controller="Home" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id" class="img-wrap">
                                 <img src="~/images/@produto.Imagem" alt="@produto.Nome" style="width: 260px; height: 200px" />
                             </a>
                             <!-- Product details-->
@@ -29,13 +20,13 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder"> @produto.Nome</h5>
                                     <!-- Product price-->
-                                    @produto.Preco
+                                    @produto.Preco.ToString("C2")
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <a asp-controller="Catalogo" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id" class="btn btn-outline-dark mt-auto">
+                                    <a asp-controller="Home" asp-action="ProdutoDetalhe" asp-route-id="@produto.Id" class="btn btn-outline-dark mt-auto">
                                         <b> Detalhes</b>
                                     </a>
                                 </div>

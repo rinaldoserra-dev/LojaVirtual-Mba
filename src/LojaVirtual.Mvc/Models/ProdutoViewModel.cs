@@ -25,6 +25,7 @@ namespace LojaVirtual.Mvc.Models
         public string? Imagem { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [DataType(DataType.Currency)]
         [Range(0.01, 99999999, ErrorMessage = "O campo {0} tem que ser maior que {1}")]
         public decimal Preco { get; set; }
 

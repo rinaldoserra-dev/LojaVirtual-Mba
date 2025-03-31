@@ -30,13 +30,17 @@ namespace LojaVirtual.Core.Infra.Repositories
 
         public async Task<Categoria> GetWithProduto(Guid id, CancellationToken cancellationToken)
         {
-            return await _context.CategoriaSet
+            return await _context
+                            .CategoriaSet
                             .Include(c => c.Produtos)
                             .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
-        public async Task<IList<Categoria>> List(CancellationToken cancellationToken)
+        public async Task<IList<Categoria>> ListAsNoTracking(CancellationToken cancellationToken)
         {
-            return await _context.CategoriaSet.ToListAsync(cancellationToken);
+            return await _context
+                            .CategoriaSet
+                            .AsNoTracking()
+                            .ToListAsync(cancellationToken);
         }
         public async Task Remove(Categoria categoria, CancellationToken cancellationToken)
         {

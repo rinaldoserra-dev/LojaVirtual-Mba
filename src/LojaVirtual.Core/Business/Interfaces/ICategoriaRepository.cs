@@ -6,7 +6,7 @@ namespace LojaVirtual.Core.Business.Interfaces
     {
         public Task Insert(Categoria categoria, CancellationToken cancellationToken);
         public Task<Categoria> GetById(Guid id, CancellationToken cancellationToken);
-        public Task<IList<Categoria>> List(CancellationToken cancellationToken);
+        public Task<IList<Categoria>> ListAsNoTracking(CancellationToken cancellationToken);
         public Task Edit(Categoria categoria, CancellationToken cancellationToken);
         public Task Remove(Categoria categoria, CancellationToken cancellationToken);
         public Task<Categoria> GetWithProduto(Guid id, CancellationToken cancellationToken);

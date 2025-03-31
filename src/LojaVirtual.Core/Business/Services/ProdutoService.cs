@@ -28,11 +28,7 @@ namespace LojaVirtual.Core.Business.Services
             {
                 _notifiable.AddNotification(new Notification("Categoria não existente."));
             }
-            //verifica se o nome do produto já existe
-            if (await _produtoRepository.Exists(request.Nome, cancellationToken))
-            {
-                _notifiable.AddNotification(new Notification("Nome do produto já existente."));                
-            }
+            
             request.VinculaVendedor(new Guid(_appIdentifyUser.GetUserId()));
             await _produtoRepository.Insert(request, cancellationToken);
             await _produtoRepository.SaveChanges(cancellationToken);
@@ -57,17 +53,11 @@ namespace LojaVirtual.Core.Business.Services
                 _notifiable.AddNotification(new Notification("Categoria não encontrada."));
                 return;
             }
-            var produtoOrigem = await _produtoRepository.GetById(request.Id, cancellationToken);
-            if (produtoOrigem.Nome != request.Nome &&
-                await _produtoRepository.Exists(request.Nome, cancellationToken))
-            {
-                _notifiable.AddNotification(new Notification("Nome do produto já existente."));
-                return;
-            }
+            var produto = await _produtoRepository.GetById(request.Id, cancellationToken);            
 
-            produtoOrigem.Edit(request.Nome, request.Descricao, request.Imagem, request.Preco, request.Estoque, request.CategoriaId);
+            produto.Edit(request.Nome, request.Descricao, request.Imagem, request.Preco, request.Estoque, request.CategoriaId);
 
-            await _produtoRepository.Edit(produtoOrigem, cancellationToken);
+            await _produtoRepository.Edit(produto, cancellationToken);
             await _produtoRepository.SaveChanges(cancellationToken);
         }
 

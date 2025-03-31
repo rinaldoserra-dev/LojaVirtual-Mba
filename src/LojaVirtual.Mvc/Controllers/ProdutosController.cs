@@ -4,7 +4,6 @@ using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Mvc.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace LojaVirtual.Mvc.Controllers
 {
@@ -65,7 +64,7 @@ namespace LojaVirtual.Mvc.Controllers
 
         private async Task<ProdutoViewModel> PopularCategorias(ProdutoViewModel produto, CancellationToken cancellationToken)
         {
-            produto.Categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaService.List(cancellationToken));
+            produto.Categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaService.ListAsNoTracking(cancellationToken));
             return produto;
         }
 

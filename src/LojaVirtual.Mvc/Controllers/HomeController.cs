@@ -2,6 +2,7 @@ using AutoMapper;
 using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace LojaVirtual.Mvc.Controllers
@@ -29,10 +30,18 @@ namespace LojaVirtual.Mvc.Controllers
 
         [HttpGet]
         [Route("")]
-        [Route("vitrine")]
         public async Task<ActionResult> Index(CancellationToken cancellationToken)
         {
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoService.ListVitrine(cancellationToken)));
+        }
+        
+        [HttpGet]
+        [Route("produto-detalhe/{id}")]
+        public async Task<IActionResult> ProdutoDetalhe(Guid id, CancellationToken cancellationToken)
+        {
+            var produto = await _produtoService.GetById(id, cancellationToken);
+
+            return View(_mapper.Map<ProdutoViewModel>(produto));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
