@@ -36,9 +36,15 @@ namespace LojaVirtual.Core.Infra.Repositories
                 .ToListAsync(cancellationToken);
         }
        
-        public async Task<IEnumerable<Produto>> GetByCategoria(Guid categoriaId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Produto>> GetWithCategoriaVendedorByCategoriaAsNoTracking(Guid? categoriaId, CancellationToken cancellationToken)
         {
-            return await _context.ProdutoSet.Where(p => p.CategoriaId == categoriaId).ToListAsync(cancellationToken);
+            return await _context
+                .ProdutoSet
+                .AsNoTracking()
+                .Include(p => p.Categoria)
+                .Include(p => p.Vendedor)
+                .Where(p => p.CategoriaId == categoriaId)
+                .ToListAsync(cancellationToken);
         }
         public async Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken)
         {
@@ -57,9 +63,14 @@ namespace LojaVirtual.Core.Infra.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id && c.VendedorId == vendedorId, cancellationToken);
         }
 
-        public async Task<List<Produto>> List(CancellationToken cancellationToken)
+        public async Task<List<Produto>> ListWithCategoriaVendedorAsNoTracking(CancellationToken cancellationToken)
         {
-            return await _context.ProdutoSet.ToListAsync(cancellationToken);
+            return await _context
+                .ProdutoSet
+                .AsNoTracking()
+                .Include(p => p.Categoria)
+                .Include(p => p.Vendedor)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task Remove(Produto produto, CancellationToken cancellationToken)

@@ -4,33 +4,21 @@
 }
 
 
-<div class="row featurette">
-    <div class="col-md-7">
-        <h2 class="featurette-heading"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O primeiro título distinto. </font></font><span class="text-muted"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Isso vai te surpreender.</font></font></span></h2>
-        <p class="lead"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">O rosto humano é uma parte muito complexa e distinta do corpo. Na verdade, é um dos sistemas de sinalização mais complexos disponíveis para nós; Inclui mais de 40 músculos que são estrutural e funcionalmente independentes, de modo que cada um pode ser operado independentemente dos outros; É um dos indicadores mais poderosos de emoções.</font></font></p>
-    </div>
-    <div class="col-md-5">
-        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Espaço reservado: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"></rect><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-
-    </div>
-</div>
-
-
     <div class="card">
         <div class="row">
             <aside class="col-md-2">                
                 <div style="text-align: center">
-                    <img src="~/images/@Model.Imagem" alt="@Model.Nome">
+                    <img src="~/images/@Model.Imagem" alt="@Model.Nome" style="width:100%;height:180px"  />
                 </div>                
             </aside>
             <main class="col-md-10 border-left">
                 <article class="content-body">                    
                     <input type="hidden" id="ProdutoId" name="ProdutoId" value="@Model.Id" />
 
-                    <h2 class="title">@Model.Nome</h2>
+                    <h2>@Model.Nome</h2>
 
                     <div class="mb-3">
-                    <var class="price h4">@Model.Preco.ToString("C2")</var>
+                    <var class="h4">@Model.Preco.ToString("C2")</var>
                     </div>
 
                     <h5>@Model.Descricao</h5><br />
@@ -45,7 +33,7 @@
                         }
                         else
                         {
-                            
+                            <span style="border: 1px solid;padding: 5px 8px;color: red;border-radius: 5px;">Sem Estoque</span>
                         }
                     }
 

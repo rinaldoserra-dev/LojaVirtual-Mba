@@ -80,6 +80,7 @@ namespace LojaVirtual.Api.Controllers
                 var vendedor = new Vendedor(idUser, registerUser.Nome, registerUser.Email);
                 
                 await _vendedorRepository.Insert(vendedor, cancellationToken);
+                await _vendedorRepository.SaveChanges(cancellationToken);
                 await _signInManager.SignInAsync(user, false);
                 return CustomResponse(HttpStatusCode.OK, await GerarJwt(user.Email));
             }

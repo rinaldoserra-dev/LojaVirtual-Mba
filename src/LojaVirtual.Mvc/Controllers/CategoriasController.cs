@@ -25,7 +25,7 @@ namespace LojaVirtual.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaService.ListAsNoTracking(cancellationToken));
+            var categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaService.List(cancellationToken));
             
             return View(categorias);
         }

@@ -40,7 +40,7 @@ namespace LojaVirtual.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> List(CancellationToken cancellationToken)
         {            
-            return CustomResponse(HttpStatusCode.OK, _mapper.Map<IEnumerable<CategoriaModel>>(await _categoriaService.ListAsNoTracking(cancellationToken)));
+            return CustomResponse(HttpStatusCode.OK, _mapper.Map<IEnumerable<CategoriaModel>>(await _categoriaService.List(cancellationToken)));
         }
         
         [HttpPut("{id:Guid}")]

@@ -52,11 +52,17 @@ namespace LojaVirtual.Mvc.Controllers
             {
                 return View(produtoViewModel);
             }
+            try
+            {
+                produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+                await _produtoService.Insert(_mapper.Map<Produto>(produtoViewModel), cancellationToken);
+                if (!OperacaoValida()) return View(produtoViewModel);
+            }
+            catch
+            {
+                DeleteFile(produtoViewModel.Imagem);
 
-            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
-            await _produtoService.Insert(_mapper.Map<Produto>(produtoViewModel), cancellationToken);
-
-            if (!OperacaoValida()) return View(produtoViewModel);
+            }
 
             return RedirectToAction("Index");
         }
@@ -64,7 +70,7 @@ namespace LojaVirtual.Mvc.Controllers
 
         private async Task<ProdutoViewModel> PopularCategorias(ProdutoViewModel produto, CancellationToken cancellationToken)
         {
-            produto.Categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaService.ListAsNoTracking(cancellationToken));
+            produto.Categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaService.List(cancellationToken));
             return produto;
         }
 
@@ -90,6 +96,12 @@ namespace LojaVirtual.Mvc.Controllers
             }
 
             return true;
+        }
+        private void DeleteFile(string imageName)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", imageName);
+
+            System.IO.File.Delete(path);
         }
     }
 }

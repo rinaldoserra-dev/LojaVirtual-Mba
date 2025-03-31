@@ -15,6 +15,15 @@ namespace LojaVirtual.Core.Infra.Repositories
         public async Task Insert(Vendedor request, CancellationToken cancellationToken)
         {
             await _context.VendedorSet.AddAsync(request, cancellationToken);
-        }       
+        }
+
+        public async Task<int> SaveChanges(CancellationToken cancellationToken)
+        {
+            return await _context.SaveChangesAsync(cancellationToken);
+        }
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }

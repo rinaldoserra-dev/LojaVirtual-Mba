@@ -7,7 +7,7 @@ namespace LojaVirtual.Core.Business.Interfaces
         Task Insert(Categoria request, CancellationToken cancellationToken);
         Task Edit(Categoria request, CancellationToken cancellationToken);
         Task Remove(Guid id, CancellationToken cancellationToken);
-        Task<IEnumerable<Categoria>> ListAsNoTracking(CancellationToken cancellationToken);        
+        Task<IEnumerable<Categoria>> List(CancellationToken cancellationToken);        
         Task<Categoria> GetById(Guid id, CancellationToken cancellationToken);
     }
 }

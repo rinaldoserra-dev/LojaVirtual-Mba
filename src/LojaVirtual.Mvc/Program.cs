@@ -1,5 +1,7 @@
 using LojaVirtual.Core.Infra.Seed;
 using LojaVirtual.Mvc.Configurations;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,18 @@ builder.Services
     .RegisterServices()
     .AddAutoMapper()
     .AddControllersWithViews();
+
+// Defina a cultura que você quer
+var cultureInfo = new CultureInfo("pt-BR"); // ou outra cultura de sua preferência
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture(cultureInfo);
+    options.SupportedCultures = new[] { cultureInfo };
+    options.SupportedUICultures = new[] { cultureInfo };
+});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

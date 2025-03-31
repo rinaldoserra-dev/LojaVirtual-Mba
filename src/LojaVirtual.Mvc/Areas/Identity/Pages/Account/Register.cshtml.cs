@@ -143,7 +143,7 @@ namespace LojaVirtual.Mvc.Areas.Identity.Pages.Account
                     var vendedor = new Vendedor(new Guid(userId), Input.Nome, Input.Email);
 
                     await _vendedorRepository.Insert(vendedor, CancellationToken.None);
-
+                    await _vendedorRepository.SaveChanges(CancellationToken.None);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

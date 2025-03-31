@@ -70,9 +70,9 @@ namespace LojaVirtual.Core.Business.Services
             return await _produtoRepository.GetAllSelfProdutoWithCategoria(new Guid(_appIdentifyUser.GetUserId()), cancellationToken);
         }
 
-        public async Task<IEnumerable<Produto>> GetByCategoria(Guid categoriaId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Produto>> GetWithCategoriaVendedorByCategoria(Guid? categoriaId, CancellationToken cancellationToken)
         {
-            return await _produtoRepository.GetByCategoria(categoriaId, cancellationToken);
+            return await _produtoRepository.GetWithCategoriaVendedorByCategoriaAsNoTracking(categoriaId, cancellationToken);
         }
         
         public Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken)
@@ -92,7 +92,7 @@ namespace LojaVirtual.Core.Business.Services
         #region Vitrine
         public async Task<IEnumerable<Produto>> ListVitrine(CancellationToken cancellationToken)
         {
-            return await _produtoRepository.List(cancellationToken);
+            return await _produtoRepository.ListWithCategoriaVendedorAsNoTracking(cancellationToken);
         }
         public async Task<Produto> GetById(Guid id, CancellationToken cancellationToken)
         {

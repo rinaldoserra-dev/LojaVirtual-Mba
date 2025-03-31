@@ -26,7 +26,7 @@ namespace LojaVirtual.Mvc.Models
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [DataType(DataType.Currency)]
-        [Range(0.01, 99999999, ErrorMessage = "O campo {0} tem que ser maior que {1}")]
+        [Range(0.01, 999999.99, ErrorMessage = "Valor inválido")]
         public decimal Preco { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
@@ -36,7 +36,7 @@ namespace LojaVirtual.Mvc.Models
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [DisplayName("Categoria")]
         public Guid CategoriaId { get; set; }
-
+        [DisplayName("Categoria")]
         public string NomeCategoria { get; set; } = string.Empty;
         public IEnumerable<CategoriaViewModel> Categorias { get; set; } =  Enumerable.Empty<CategoriaViewModel>();
     }
