@@ -10,21 +10,9 @@ builder.Services
     .AddDbContextIdentityConfig(builder.Configuration)
     .RegisterServices()
     .AddAutoMapper()
+    .AddMvcConfiguration()
     .AddControllersWithViews();
 
-// Defina a cultura que você quer
-var cultureInfo = new CultureInfo("pt-BR"); // ou outra cultura de sua preferência
-CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.DefaultRequestCulture = new RequestCulture(cultureInfo);
-    options.SupportedCultures = new[] { cultureInfo };
-    options.SupportedUICultures = new[] { cultureInfo };
-});
-
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 
@@ -40,6 +28,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseGlobalizationConfig();
 
 app.MapControllerRoute(
     name: "default",

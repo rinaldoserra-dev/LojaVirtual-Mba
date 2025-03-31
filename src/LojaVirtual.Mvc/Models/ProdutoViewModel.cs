@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using LojaVirtual.Mvc.Extensions;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,8 +26,8 @@ namespace LojaVirtual.Mvc.Models
         public string? Imagem { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [DataType(DataType.Currency)]
-        [Range(0.01, 999999.99, ErrorMessage = "Valor inválido")]
+        [DisplayName("Preço")]
+        [Moeda]
         public decimal Preco { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

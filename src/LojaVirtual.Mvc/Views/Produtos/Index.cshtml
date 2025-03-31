@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Descricao)
+                @Html.DisplayNameFor(model => model.Preco)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NomeCategoria)
@@ -39,7 +39,7 @@
                     @Html.DisplayFor(_ => produto.Nome)
                 </td>
                 <td>
-                    @(produto.Descricao is { Length: > 99 } ? produto.Descricao[..99] + "..." : produto.Descricao)
+                    @(produto.Preco.ToString("C2"))
                 </td>
                 <td>
                     @Html.DisplayFor(_ => produto.NomeCategoria)

@@ -3,6 +3,8 @@ using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Core.Business.Notifications;
 using LojaVirtual.Core.Business.Services;
 using LojaVirtual.Core.Infra.Repositories;
+using LojaVirtual.Mvc.Extensions;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
 namespace LojaVirtual.Mvc.Configurations
 {
@@ -23,7 +25,7 @@ namespace LojaVirtual.Mvc.Configurations
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IAppIdentifyUser, AppIdentityUser>();
 
-
+            services.AddSingleton<IValidationAttributeAdapterProvider, MoedaValidationAttributeAdapterProvider>();
             return services;
         }
     }
