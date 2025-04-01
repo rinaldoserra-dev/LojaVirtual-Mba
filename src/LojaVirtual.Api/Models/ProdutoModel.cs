@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LojaVirtual.Api.Extensions;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace LojaVirtual.Api.Models
@@ -22,7 +23,7 @@ namespace LojaVirtual.Api.Models
         public string Imagem { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [Range(0.01, 99999999, ErrorMessage = "O campo {0} tem que ser maior que {1}")]
+        [Moeda]
         public decimal Preco { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

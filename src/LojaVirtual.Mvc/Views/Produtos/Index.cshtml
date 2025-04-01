@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProdutoViewModel>
+﻿@using LojaVirtual.Mvc.Extensions
+@model IEnumerable<ProdutoViewModel>
 @{
     ViewData["Title"] = "Lista de Produtos";
 }
@@ -39,7 +40,7 @@
                     @Html.DisplayFor(_ => produto.Nome)
                 </td>
                 <td>
-                    @(produto.Preco.ToString("C2"))
+                    @this.FormatoMoeda(produto.Preco)
                 </td>
                 <td>
                     @Html.DisplayFor(_ => produto.NomeCategoria)

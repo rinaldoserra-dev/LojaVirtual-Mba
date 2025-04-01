@@ -67,6 +67,44 @@ namespace LojaVirtual.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("detalhes/{id:guid}")]
+        public async Task<IActionResult> Details(Guid id, CancellationToken cancellationToken)
+        {
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetWithCategoriaById(id, cancellationToken));
+
+            if (produtoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(produtoViewModel);
+        }
+        [Route("excluir/{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetWithCategoriaById(id, cancellationToken));
+
+            if (produtoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(produtoViewModel);
+        }
+        [Route("excluir/{id:guid}")]
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken)
+        {
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetWithCategoriaById(id, cancellationToken));
+
+            if (produtoViewModel == null) return NotFound();
+
+            await _produtoService.Remove(id, cancellationToken);
+
+            if (!OperacaoValida()) return View(produtoViewModel);
+
+            return RedirectToAction("Index");
+        }
 
         private async Task<ProdutoViewModel> PopularCategorias(ProdutoViewModel produto, CancellationToken cancellationToken)
         {

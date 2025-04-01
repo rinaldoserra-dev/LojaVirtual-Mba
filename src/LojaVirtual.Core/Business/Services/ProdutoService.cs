@@ -75,9 +75,9 @@ namespace LojaVirtual.Core.Business.Services
             return await _produtoRepository.GetWithCategoriaVendedorByCategoriaAsNoTracking(categoriaId, cancellationToken);
         }
         
-        public Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken)
+        public async Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _produtoRepository.GetWithCategoriaById(id, cancellationToken);
         }
         
         public async Task<IEnumerable<Produto>> List(CancellationToken cancellationToken)

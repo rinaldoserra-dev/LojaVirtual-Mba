@@ -1,46 +1,32 @@
-﻿@model ProdutoViewModel
+﻿@using LojaVirtual.Mvc.Extensions
+@model ProdutoViewModel
 @{
     ViewData["Title"] = "Detalhes do Produto";
 }
 
-
-    <div class="card">
-        <div class="row">
-            <aside class="col-md-2">                
-                <div style="text-align: center">
-                    <img src="~/images/@Model.Imagem" alt="@Model.Nome" style="width:100%;height:180px"  />
-                </div>                
-            </aside>
-            <main class="col-md-10 border-left">
-                <article class="content-body">                    
-                    <input type="hidden" id="ProdutoId" name="ProdutoId" value="@Model.Id" />
-
-                    <h2>@Model.Nome</h2>
-
-                    <div class="mb-3">
-                    <var class="h4">@Model.Preco.ToString("C2")</var>
-                    </div>
-
-                    <h5>@Model.Descricao</h5><br />
-                    <hr>
-
-                    @{
-                        if (Model.Estoque > 0)
-                        {                                
-                            <button type="button" class="btn  btn-outline-primary">
-                                <span class="text">Adicionar ao carrinho</span> <i class="fas fa-shopping-cart"> &nbsp;</i>
-                            </button>
-                        }
-                        else
-                        {
-                            <span style="border: 1px solid;padding: 5px 8px;color: red;border-radius: 5px;">Sem Estoque</span>
-                        }
-                    }
-
-                    <a asp-action="Index" class="btn  btn-info">
-                        <span class="text">Voltar</span>
-                    </a>
-                </article>
-            </main>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="~/images/@Model.Imagem" alt="@Model.Nome" class="product-img" />
+        </div>
+        <div class="col-md-6">
+            <h2>@Model.Nome</h2>
+            <p class="text-muted">@Model.NomeCategoria</p>
+            <h4 class="text">@this.FormatoMoeda(Model.Preco)</h4>
+            <p>@Model.Descricao</p>
+            @* <button class="btn btn-dark btn-lg"><i class="bi bi-cart"></i> Comprar Agora</button> *@
+            @{
+                if (Model.Estoque > 0)
+                {
+                    <button type="button" class="btn btn-dark btn-lg">
+                        <span class="text">Adicionar ao carrinho</span> <i class="fas fa-shopping-cart"> &nbsp;</i>
+                    </button>
+                }
+                else
+                {
+                    <span style="border: 1px solid;padding: 5px 8px;color: red;border-radius: 5px;">Sem Estoque</span>
+                }
+            }
         </div>
     </div>
+</div>
