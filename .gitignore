@@ -360,3 +360,8 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/bower,visualstudio
+
+#SqLite
+*.db
+*.db-shm
+*.db-wal
