@@ -11,15 +11,15 @@ namespace LojaVirtual.Api.Configurations
             {
                 option.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Controle de Emissão de Certificado Digital",
-                    Description = "Esta API faz parte do sistema de Controle de Emissão de Certificado Digital.",
-                    Contact = new OpenApiContact { Name = "Divisão de Sistemas Administrativos", Email = "divadm@tjse.jus.br" },
+                    Title = "Sistema de uma Loja Virtual",
+                    Description = "Esta API faz parte do sistema de uma Loja Virtual.",
+                    Contact = new OpenApiContact { Name = "MBA - Desenvolvedor.io" },
                     License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
                 });
                 option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Please enter a valid token",
+                    Description = "Favor inserir um token válido",
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT",
