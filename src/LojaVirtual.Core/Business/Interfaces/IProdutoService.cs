@@ -8,7 +8,7 @@ namespace LojaVirtual.Core.Business.Interfaces
         Task Edit(Produto request, CancellationToken cancellationToken);
         Task Remove(Guid id, CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> List(CancellationToken cancellationToken);
-        Task<IEnumerable<Produto>> ListVitrine(CancellationToken cancellationToken);
+        Task<IEnumerable<Produto>> ListVitrine(Guid? categoriaId, CancellationToken cancellationToken);
         Task<Produto> GetById(Guid id, CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetWithCategoriaVendedorByCategoria(Guid? categoriaId, CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken);

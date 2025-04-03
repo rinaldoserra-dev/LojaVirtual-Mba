@@ -53,8 +53,7 @@ namespace LojaVirtual.Mvc.Controllers
         [HttpGet]
         [Route("produto-detalhe/{id}")]
         public async Task<IActionResult> ProdutoDetalhe(Guid id, CancellationToken cancellationToken)
-        {
-            id = Guid.NewGuid();
+        {            
             var produto = await _produtoService.GetById(id, cancellationToken);
 
             if (produto == null)

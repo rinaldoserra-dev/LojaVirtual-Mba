@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LojaVirtual.Mvc.Controllers
 {
+    [Route("produtos")]
     [Authorize]
     public class ProdutosController : MainController
     {
@@ -79,6 +80,7 @@ namespace LojaVirtual.Mvc.Controllers
 
             return View(produtoViewModel);
         }
+
         [Route("excluir/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
@@ -106,6 +108,52 @@ namespace LojaVirtual.Mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("editar/{id:guid}")]
+        public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken)
+        {
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetById(id, cancellationToken));
+            produtoViewModel = await PopularCategorias(produtoViewModel, cancellationToken);
+                        
+            if (produtoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(produtoViewModel);
+        }
+        [Route("editar/{id:guid}")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel, CancellationToken cancellationToken)
+        {
+            if (id != produtoViewModel.Id) return NotFound();
+
+            produtoViewModel = await PopularCategorias(produtoViewModel, cancellationToken);
+
+            if (!ModelState.IsValid) return View(produtoViewModel);                        
+
+            if(produtoViewModel.ImagemUpload != null)
+            {
+                var imgPrefixo = Guid.NewGuid() + "_";
+                if (!await UploadFile(produtoViewModel.ImagemUpload, imgPrefixo))
+                {
+                    return View(produtoViewModel);
+                }
+                produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+            }
+            try
+            {
+                
+                await _produtoService.Edit(_mapper.Map<Produto>(produtoViewModel), cancellationToken);
+                if (!OperacaoValida()) return View(produtoViewModel);
+            }
+            catch
+            {
+                DeleteFile(produtoViewModel.Imagem);
+
+            }
+
+            return RedirectToAction("Index");            
+        }
         private async Task<ProdutoViewModel> PopularCategorias(ProdutoViewModel produto, CancellationToken cancellationToken)
         {
             produto.Categorias = _mapper.Map<IEnumerable<CategoriaViewModel>>(await _categoriaService.List(cancellationToken));

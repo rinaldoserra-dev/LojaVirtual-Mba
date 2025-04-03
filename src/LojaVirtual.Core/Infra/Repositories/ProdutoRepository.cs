@@ -72,6 +72,16 @@ namespace LojaVirtual.Core.Infra.Repositories
                 .Include(p => p.Vendedor)
                 .ToListAsync(cancellationToken);
         }
+        public async Task<List<Produto>> ListWithCategoriaVendedorByCategoriaAsNoTracking(Guid categoriaId, CancellationToken cancellationToken)
+        {
+            return await _context
+                .ProdutoSet
+                .AsNoTracking()
+                .Include(p => p.Categoria)
+                .Include(p => p.Vendedor)
+                .Where(p => p.CategoriaId == categoriaId)
+                .ToListAsync(cancellationToken);
+        }        
 
         public async Task Remove(Produto produto, CancellationToken cancellationToken)
         {

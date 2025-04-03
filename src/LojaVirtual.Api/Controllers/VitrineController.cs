@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LojaVirtual.Api.Models;
-using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +22,9 @@ namespace LojaVirtual.Api.Controllers
         }
 
         [HttpGet("")]        
-        public async Task<ActionResult> ListVitrine(CancellationToken cancellationToken)
-        {
-            return CustomResponse(HttpStatusCode.OK, _mapper.Map<IEnumerable<ProdutoModel>>(await _produtoService.ListVitrine(cancellationToken)));
+        public async Task<ActionResult> ListVitrine(Guid? categoriaId, CancellationToken cancellationToken)
+        {            
+            return CustomResponse(HttpStatusCode.OK, _mapper.Map<IEnumerable<ProdutoModel>>(await _produtoService.ListVitrine(categoriaId, cancellationToken)));
         }
 
         [HttpGet("detalhe/{id:Guid}")]                

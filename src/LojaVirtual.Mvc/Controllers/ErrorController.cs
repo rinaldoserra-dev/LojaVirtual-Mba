@@ -12,7 +12,7 @@ namespace LojaVirtual.Mvc.Controllers
                 return View("NotFound");
             }
 
-            return View("GenericError");
+            return View("Error");
         }
     }
 }

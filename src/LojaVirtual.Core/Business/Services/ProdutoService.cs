@@ -88,17 +88,17 @@ namespace LojaVirtual.Core.Business.Services
         {
             return await _produtoRepository.GetSelfProdutoById(id, new Guid(_appIdentifyUser.GetUserId()), cancellationToken);
         }
-
-        #region Vitrine
-        public async Task<IEnumerable<Produto>> ListVitrine(CancellationToken cancellationToken)
+        
+        public async Task<IEnumerable<Produto>> ListVitrine(Guid? categoriaId, CancellationToken cancellationToken)
         {
-            return await _produtoRepository.ListWithCategoriaVendedorAsNoTracking(cancellationToken);
+            var produtos = categoriaId == null ? 
+                await _produtoRepository.ListWithCategoriaVendedorAsNoTracking(cancellationToken) :
+                await _produtoRepository.ListWithCategoriaVendedorByCategoriaAsNoTracking(new Guid(categoriaId.ToString()!), cancellationToken);
+            return produtos;
         }
         public async Task<Produto> GetById(Guid id, CancellationToken cancellationToken)
         {
             return await _produtoRepository.GetById(id, cancellationToken);
-        }
-        #endregion
-       
+        }       
     }
 }
