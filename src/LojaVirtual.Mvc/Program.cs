@@ -1,7 +1,5 @@
 using LojaVirtual.Core.Infra.Seed;
 using LojaVirtual.Mvc.Configurations;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +28,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.UseGlobalizationConfig();
+
+app.UseStatusCodePagesWithReExecute("/Erro/{0}");
 
 app.MapControllerRoute(
     name: "default",
