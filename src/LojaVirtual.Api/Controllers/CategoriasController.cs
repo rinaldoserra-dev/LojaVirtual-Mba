@@ -2,7 +2,6 @@
 using LojaVirtual.Api.Models;
 using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
-using LojaVirtual.Core.Business.Models.Categoria;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -44,7 +43,7 @@ namespace LojaVirtual.Api.Controllers
         }
         
         [HttpPut("{id:Guid}")]
-        public async Task<IActionResult> Edit(Guid id, [FromBody] CategoriaRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(Guid id, [FromBody] CategoriaModel request, CancellationToken cancellationToken)
         {
             if (id != request.Id)
             {

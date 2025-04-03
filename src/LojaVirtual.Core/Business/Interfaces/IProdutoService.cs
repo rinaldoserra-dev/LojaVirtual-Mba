@@ -10,10 +10,8 @@ namespace LojaVirtual.Core.Business.Interfaces
         Task<IEnumerable<Produto>> List(CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> ListVitrine(Guid? categoriaId, CancellationToken cancellationToken);
         Task<Produto> GetById(Guid id, CancellationToken cancellationToken);
-        Task<IEnumerable<Produto>> GetWithCategoriaVendedorByCategoria(Guid? categoriaId, CancellationToken cancellationToken);
-        Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetAllSelfProdutoWithCategoria(CancellationToken cancellationToken);
-        Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken);
-        Task<Produto> GetSelfProdutoById(Guid id, CancellationToken cancellationToken);
+        Task<Produto> GetSelfWithCategoriaById(Guid id, CancellationToken cancellationToken);
+        Task<Produto?> GetSelfProdutoById(Guid id, CancellationToken cancellationToken);
     }
 }

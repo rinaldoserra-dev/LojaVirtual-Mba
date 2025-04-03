@@ -21,13 +21,6 @@ namespace LojaVirtual.Core.Infra.Repositories
         {
             return Task.FromResult(_context.ProdutoSet.Update(entity));
         }
-
-        public async Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken)
-        {
-            return await _context.ProdutoSet
-                .Include(p => p.Categoria)
-                .ToListAsync(cancellationToken);
-        }
         public async Task<IEnumerable<Produto>> GetAllSelfProdutoWithCategoria(Guid vendedorId, CancellationToken cancellationToken)
         {
             return await _context.ProdutoSet
@@ -35,26 +28,17 @@ namespace LojaVirtual.Core.Infra.Repositories
                 .Where(p => p.VendedorId == vendedorId)
                 .ToListAsync(cancellationToken);
         }
-       
-        public async Task<IEnumerable<Produto>> GetWithCategoriaVendedorByCategoriaAsNoTracking(Guid? categoriaId, CancellationToken cancellationToken)
-        {
-            return await _context
-                .ProdutoSet
-                .AsNoTracking()
-                .Include(p => p.Categoria)
-                .Include(p => p.Vendedor)
-                .Where(p => p.CategoriaId == categoriaId)
-                .ToListAsync(cancellationToken);
-        }
-        public async Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken)
+        public async Task<Produto> GetSelfWithCategoriaById(Guid id, Guid vendedorId, CancellationToken cancellationToken)
         {
             return await _context.ProdutoSet
                 .Include(p => p.Categoria)
-                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+                .FirstOrDefaultAsync(p => p.Id == id && p.VendedorId == vendedorId, cancellationToken);
         }
         public async Task<Produto> GetById(Guid id, CancellationToken cancellationToken)
         {
-            return await _context.ProdutoSet.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+            return await _context
+                .ProdutoSet
+                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
         public async Task<Produto> GetSelfProdutoById(Guid id, Guid vendedorId, CancellationToken cancellationToken)
         {
@@ -96,6 +80,7 @@ namespace LojaVirtual.Core.Infra.Repositories
         {
             return await _context
                 .ProdutoSet
+                .AsNoTracking()
                 .Where(p => p.VendedorId == vendedorId)
                 .ToListAsync(cancellationToken);            
         }

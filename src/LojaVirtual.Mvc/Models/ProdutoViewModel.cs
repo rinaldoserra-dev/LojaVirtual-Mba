@@ -31,7 +31,7 @@ namespace LojaVirtual.Mvc.Models
         public decimal Preco { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [Range(1, int.MaxValue, ErrorMessage = "O campo {0} tem que ser maior que {1}")]
+        [Range(0, int.MaxValue, ErrorMessage = "O campo {0} tem que ser maior que {1}")]
         public int Estoque { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]

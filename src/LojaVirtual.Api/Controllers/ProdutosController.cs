@@ -2,6 +2,7 @@
 using LojaVirtual.Api.Models;
 using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
+using LojaVirtual.Core.Business.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -68,9 +69,13 @@ namespace LojaVirtual.Api.Controllers
             }
 
             var produtoOrigem = await _produtoService.GetSelfProdutoById(id, cancellationToken);
-            
-            if (string.IsNullOrEmpty(produtoModel.Imagem))
-                produtoModel.Imagem = produtoOrigem.Imagem;
+            if (produtoOrigem is null)
+            {
+                return CustomResponse();
+            }
+
+            produtoModel.Imagem = produtoOrigem.Imagem;
+            ModelState.Remove("ImagemUpload");
 
             if (!ModelState.IsValid)
             {
@@ -111,7 +116,6 @@ namespace LojaVirtual.Api.Controllers
         public async Task<ActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             var produto = _mapper.Map<ProdutoModel>(await _produtoService.GetSelfProdutoById(id, cancellationToken));
-
             return CustomResponse(HttpStatusCode.OK, produto);
         }
 

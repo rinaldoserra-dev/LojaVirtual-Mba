@@ -13,10 +13,8 @@ namespace LojaVirtual.Core.Business.Interfaces
         public Task Edit(Produto produto, CancellationToken cancellationToken);
         public Task Remove(Produto produto, CancellationToken cancellationToken);
         public Task<bool> Exists(string nome, CancellationToken cancellationToken);
-        Task<IEnumerable<Produto>> GetWithCategoriaVendedorByCategoriaAsNoTracking(Guid? categoriaId, CancellationToken cancellationToken);
-        Task<IEnumerable<Produto>> GetAllWithCategoria(CancellationToken cancellationToken);
         Task<IEnumerable<Produto>> GetAllSelfProdutoWithCategoria(Guid vendedorid, CancellationToken cancellationToken);
-        Task<Produto> GetWithCategoriaById(Guid id, CancellationToken cancellationToken);
+        Task<Produto> GetSelfWithCategoriaById(Guid id, Guid vendedorid, CancellationToken cancellationToken);
         public Task<int> SaveChanges(CancellationToken cancellationToken);
     }
 }

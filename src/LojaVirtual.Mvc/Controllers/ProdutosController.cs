@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LojaVirtual.Mvc.Controllers
 {
-    [Route("produtos")]
+    [Route("meus-produtos")]
     [Authorize]
     public class ProdutosController : MainController
     {
@@ -71,7 +71,7 @@ namespace LojaVirtual.Mvc.Controllers
         [Route("detalhes/{id:guid}")]
         public async Task<IActionResult> Details(Guid id, CancellationToken cancellationToken)
         {
-            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetWithCategoriaById(id, cancellationToken));
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetSelfWithCategoriaById(id, cancellationToken));
 
             if (produtoViewModel == null)
             {
@@ -84,7 +84,7 @@ namespace LojaVirtual.Mvc.Controllers
         [Route("excluir/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetWithCategoriaById(id, cancellationToken));
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetSelfWithCategoriaById(id, cancellationToken));
 
             if (produtoViewModel == null)
             {
@@ -97,7 +97,7 @@ namespace LojaVirtual.Mvc.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(Guid id, CancellationToken cancellationToken)
         {
-            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetWithCategoriaById(id, cancellationToken));
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetSelfWithCategoriaById(id, cancellationToken));
 
             if (produtoViewModel == null) return NotFound();
 
@@ -111,13 +111,13 @@ namespace LojaVirtual.Mvc.Controllers
         [Route("editar/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken)
         {
-            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetById(id, cancellationToken));
-            produtoViewModel = await PopularCategorias(produtoViewModel, cancellationToken);
-                        
+            var produtoViewModel = _mapper.Map<ProdutoViewModel>(await _produtoService.GetSelfWithCategoriaById(id, cancellationToken));
             if (produtoViewModel == null)
             {
                 return NotFound();
             }
+
+            produtoViewModel = await PopularCategorias(produtoViewModel, cancellationToken);
 
             return View(produtoViewModel);
         }
@@ -129,9 +129,11 @@ namespace LojaVirtual.Mvc.Controllers
 
             produtoViewModel = await PopularCategorias(produtoViewModel, cancellationToken);
 
-            if (!ModelState.IsValid) return View(produtoViewModel);                        
+            if (!ModelState.IsValid) return View(produtoViewModel);
 
-            if(produtoViewModel.ImagemUpload != null)
+            var produtoOrigem = await _produtoService.GetById(id, cancellationToken);
+            produtoViewModel.Imagem = produtoOrigem.Imagem;
+            if (produtoViewModel.ImagemUpload != null)
             {
                 var imgPrefixo = Guid.NewGuid() + "_";
                 if (!await UploadFile(produtoViewModel.ImagemUpload, imgPrefixo))
@@ -140,16 +142,20 @@ namespace LojaVirtual.Mvc.Controllers
                 }
                 produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
             }
+            
             try
             {
-                
                 await _produtoService.Edit(_mapper.Map<Produto>(produtoViewModel), cancellationToken);
-                if (!OperacaoValida()) return View(produtoViewModel);
+                if (!OperacaoValida() && produtoViewModel.ImagemUpload != null)
+                {
+                    DeleteFile(produtoViewModel.Imagem);
+                    return View(produtoViewModel);
+                }
             }
             catch
             {
                 DeleteFile(produtoViewModel.Imagem);
-
+                return View(produtoViewModel);
             }
 
             return RedirectToAction("Index");            
