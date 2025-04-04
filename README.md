@@ -3,7 +3,7 @@
 ## **1. Apresentação**
 
 Bem-vindo ao repositório do projeto **[LojaVirtual]**. Este projeto é uma entrega do MBA DevXpert Full Stack .NET e é referente ao módulo **Introdução ao Desenvolvimento ASP.NET Core**.
-O objetivo principal é desenvolver uma aplicação de uma mini loja virtual que permite aos usuários criar, editar, visualizar e excluir categorias e produtos em um formato tipo e-commerce markeplace, tanto através de uma interface web utilizando MVC quanto através de uma API RESTful.
+O objetivo principal é desenvolver uma aplicação de uma mini loja virtual que permite aos usuários criar, editar, visualizar e excluir categorias e produtos em um formato tipo e-commerce marketplace, tanto através de uma interface web utilizando MVC quanto através de uma API RESTful.
 
 Para facilitar os testes por quem baixar o projeto foi adicionado um tratamento para a criação do banco de dados junto com uma massa de dados que preenche usuários, vendedores, categorias e produtos.
 
