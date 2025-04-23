@@ -55,7 +55,12 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");   
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");  
     }
+
+    <script>
+        $("#ImagemUpload").attr("data-val", "true");
+        $("#ImagemUpload").attr("data-val-required", "Preencha o campo Imagem do Produto");
+    </script>
     
 }
