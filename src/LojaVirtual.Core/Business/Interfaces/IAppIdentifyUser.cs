@@ -4,5 +4,6 @@
     {
         public string GetUserId();
         bool IsAuthenticated();
+        public string GetNameVendedor();
     }
 }

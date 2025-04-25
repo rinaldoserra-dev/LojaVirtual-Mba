@@ -1,11 +1,7 @@
 using AutoMapper;
-using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 
 namespace LojaVirtual.Mvc.Controllers
 {
@@ -28,10 +24,10 @@ namespace LojaVirtual.Mvc.Controllers
             _categoriaService = categoriaService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }        
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}        
 
         [HttpGet]
         [Route("")]

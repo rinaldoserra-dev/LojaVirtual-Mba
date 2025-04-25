@@ -1,6 +1,7 @@
 ﻿using LojaVirtual.Core.Business.Entities;
 using LojaVirtual.Core.Business.Interfaces;
 using LojaVirtual.Core.Infra.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace LojaVirtual.Core.Infra.Repositories
 {
@@ -21,9 +22,16 @@ namespace LojaVirtual.Core.Infra.Repositories
         {
             return await _context.SaveChangesAsync(cancellationToken);
         }
+        public async Task<Vendedor> GetById(Guid id, CancellationToken cancellationToken)
+        {            
+            return await _context
+                    .VendedorSet
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(v => v.Id == id, cancellationToken);
+        }
         public void Dispose()
         {
             _context.Dispose();
-        }
+        }        
     }
 }
