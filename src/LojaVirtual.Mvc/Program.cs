@@ -8,8 +8,7 @@ builder.Services
     .AddDbContextIdentityConfig(builder.Configuration)
     .RegisterServices()
     .AddAutoMapper()
-    .AddMvcConfiguration()
-    .AddControllersWithViews();
+    .AddMvcConfiguration();
 
 
 var app = builder.Build();
