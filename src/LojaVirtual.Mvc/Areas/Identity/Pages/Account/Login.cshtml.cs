@@ -65,7 +65,7 @@ namespace LojaVirtual.Mvc.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
             public string Email { get; set; }
 
             /// <summary>
@@ -128,7 +128,7 @@ namespace LojaVirtual.Mvc.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Usuário ou senha inválidos.");
                     return Page();
                 }
             }

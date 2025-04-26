@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace LojaVirtual.Mvc.Extensions
+namespace LojaVirtual.Api.Extensions
 {
-
     public class IdentityPortuguesMsgError : IdentityErrorDescriber
     {
         public override IdentityError DefaultError() =>
@@ -70,7 +69,6 @@ namespace LojaVirtual.Mvc.Extensions
 
         public override IdentityError RecoveryCodeRedemptionFailed() =>
             new IdentityError { Code = nameof(RecoveryCodeRedemptionFailed), Description = "Falha ao utilizar o código de recuperação." };
-        
-    }
 
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using LojaVirtual.Core.Infra.Context;
-using LojaVirtual.Mvc.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +17,6 @@ namespace LojaVirtual.Mvc.Configurations
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()                
                 .AddEntityFrameworkStores<LojaVirtualContext>()
-                .AddErrorDescriber<IdentityPortuguesMsgError>()
                 .AddDefaultTokenProviders();
 
             return services;
