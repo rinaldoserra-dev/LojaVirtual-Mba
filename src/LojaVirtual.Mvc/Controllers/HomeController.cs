@@ -73,13 +73,13 @@ namespace LojaVirtual.Mvc.Controllers
             }
             else if (id == 404)
             {
-                modelErro.Mensagem = "A p�gina que est� procurando n�o existe! <br />Em caso de d�vidas entre em contato com nosso suporte";
-                modelErro.Titulo = "Ops! P�gina n�o encontrada.";
+                modelErro.Mensagem = "A página que está procurando não existe! <br />Em caso de dúvidas entre em contato com nosso suporte";
+                modelErro.Titulo = "Ops! Página não encontrada.";
                 modelErro.ErroCode = id;
             }
             else if (id == 403)
             {
-                modelErro.Mensagem = "Voc� n�o tem permiss�o para fazer isto.";
+                modelErro.Mensagem = "Você não tem permissão para fazer isto.";
                 modelErro.Titulo = "Acesso Negado";
                 modelErro.ErroCode = id;
             }

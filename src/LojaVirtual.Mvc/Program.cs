@@ -24,6 +24,7 @@ else
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -32,8 +33,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.UseGlobalizationConfig();
-
-app.UseStatusCodePagesWithReExecute("/Erro/{0}");
 
 app.MapControllerRoute(
     name: "default",
