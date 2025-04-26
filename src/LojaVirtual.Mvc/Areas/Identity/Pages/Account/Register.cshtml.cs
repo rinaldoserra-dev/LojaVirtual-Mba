@@ -69,7 +69,7 @@ namespace LojaVirtual.Mvc.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
             [StringLength(255, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
             [Display(Name = "Nome")]
             public string Nome { get; set; }
@@ -77,7 +77,7 @@ namespace LojaVirtual.Mvc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
             [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido")]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -86,7 +86,7 @@ namespace LojaVirtual.Mvc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "O campo {0} é obrigatório")]
             [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Senha")]
@@ -123,11 +123,9 @@ namespace LojaVirtual.Mvc.Areas.Identity.Pages.Account
 
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Nome, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                var claim = new Claim(ClaimTypes.Name, Input.Nome);
-                await _userManager.AddClaimAsync(user, claim);
 
                 if (result.Succeeded)
                 {
